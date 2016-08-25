@@ -1,0 +1,27 @@
+{
+  "name": "home-valuator",
+  "description": "home-valuator web app",
+  "main": "index.html",
+  "authors": [
+    "kwosei <kwosei@users.noreply.github.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "home-valuator"
+  ],
+  "homepage": "https://github.com/kwosei/home-valuator",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-material": "^1.1.0",
+    "angular-resource": "^1.5.8",
+    "angular-route": "^1.5.8"
+  }
+}
