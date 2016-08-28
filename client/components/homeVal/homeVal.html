@@ -1,6 +1,15 @@
 <div>
-    <md-input-container class="md-block">
-        <label>Address</label>
-        <input ng-model="homeVal.address">
-    </md-input-container>
+    <div ng-if="homeVal.initmsg">
+        <h4>Usage</h4>
+        <p>Enter a location to view real estate data for your query.</p>
+    </div>
+    <div ng-if="!homeVal.initmsg && !homeVal.error">
+        <p>Listing amount: {{homeVal.amount || "No amount data"}}</p>
+        <p>Valuation Range: Max - ${{homeVal.valuationMax || "No max valuation data"}} | Min - ${{homeVal.valuationMin || "No min valuation data"}}</p>
+        <p>Last updated: {{homeVal.lastUpdated || "No data"}}</p>
+    </div>
+    <div ng-if="homeVal.error">
+        <p>There is no data available for this address.</p>
+        <p>Know a database this project could benefit from? Consider contributing <a href="https://github.com/kwosei/home-valuator">here</a>.</p>
+    </div>
 </div>

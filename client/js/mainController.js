@@ -5,17 +5,19 @@ var homeValApp = angular.module('homeValApp', ['ngRoute', 'ngMaterial', 'ngResou
 homeValApp.config(['$routeProvider', 
 	function($routeProvider) {
 		$routeProvider.
-		when('/', {
-			templateUrl: 'components/login-register/login-registerTemplate.html',
+		when('/homeVal', {
+			templateUrl: 'client/components/homeVal/homeVal.html',
 			controller: 'MainController'
-		})
+		}).
+        otherwise({
+            redirectTo: '/homeVal'
+        })
 	}]);
 
 homeValApp.controller('MainController', ['$scope', '$rootScope', '$resource', '$location',
 	function($scope, $rootScope, $resource, $location){
 		$scope.main = {};
-
-		
+		$scope.main.place;
 
 		
 	}])
