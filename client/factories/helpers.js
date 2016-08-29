@@ -21,10 +21,24 @@ angular.module('homeValApp').factory('Helpers', ['$resource', '$route',
                     if (add_type === "postal_code") postal_code = place.address_components[i].long_name;
                 }
 
+                console.log("street_number", street_number)
+                console.log("route", route)
+                console.log("locality", locality)
+                console.log("administrative_area_level_1", administrative_area_level_1)
+
+                /* Preprocessing for Zillow call - TODO: remove */
                 var address = street_number + " " + route;
                 var citystatezip = locality + " " + administrative_area_level_1 + " " + postal_code;
 
-                return {address: address, citystatezip: citystatezip, postal_code: postal_code}
+                return {
+                    street_number: street_number,
+                    route: route,
+                    address: address,
+                    citystatezip: citystatezip,
+                    postal_code: postal_code,
+                    locality: locality,
+                    state: administrative_area_level_1
+                }
             }
 
 

@@ -1,15 +1,44 @@
 <div>
+    <!-- Zestimate values -->
     <div ng-if="homeVal.initmsg">
         <h4>Usage</h4>
         <p>Enter a location to view real estate data for your query.</p>
+        <p>Please choose a well formatted location from the autocomplete to ensure accurate results.</p>
     </div>
-    <div ng-if="!homeVal.initmsg && !homeVal.error">
-        <p>Listing amount: {{homeVal.amount || "No amount data"}}</p>
-        <p>Valuation Range: Max - ${{homeVal.valuationMax || "No max valuation data"}} | Min - ${{homeVal.valuationMin || "No min valuation data"}}</p>
-        <p>Last updated: {{homeVal.lastUpdated || "No data"}}</p>
+    <div ng-if="!homeVal.initmsg && !homeVal.zerror">
+        <p>Estimate: ${{(homeVal.zamount | number) || "No amount data"}}</p>
+        <p>Valuation Range: Min - ${{(homeVal.zvaluationMin | number) || "No min valuation data"}} | Max - ${{(homeVal.zvaluationMax
+            | number) || "No max valuation data"}}</p>
+        <p>Last updated: {{homeVal.zlastUpdated || "No data"}}</p>
+        <span style="font-size: 12px">Data source: <a ng-click="openUrl('http://www.zillow.com')">Zestimate&reg</a></span>
     </div>
-    <div ng-if="homeVal.error">
-        <p>There is no data available for this address.</p>
+    
+    <div ng-if="homeVal.zerror">
+        <p>No Zillow data available for this address.</p>
         <p>Know a database this project could benefit from? Consider contributing <a href="https://github.com/kwosei/home-valuator">here</a>.</p>
     </div>
+
+
+    <!-- Divider -->
+    <hr ng-if="!homeVal.initmsg">
+
+    <!-- Homesnap values -->
+    <div ng-if="loading">
+        <div class="loader"></div>
+        <span style="font-size: 10px">Loading homesnap data</span>
+    </div>
+
+    <div ng-if="homeVal.showsnap">
+        <div ng-if="homeVal.snaperror">
+            <p>No Homesnap data available for this address.</p>
+            <p>Know a database this project could benefit from? Consider contributing <a href="https://github.com/kwosei/home-valuator">here</a>.</p>
+        </div>
+        <div ng-if="!homeVal.snaperror">
+            <p>Estimate: {{homeVal.snap_estimate || "No estimate data"}}</p>
+            <p>Valuation Range: Min - {{homeVal.snap_min || "No min valuation data"}} | Max - {{homeVal.snap_max || "No max valuation data"}}</p>
+            <span style="font-size: 12px">Data source: <a ng-click="openUrl('http://www.homesnap.com')">Homesnap</a></span>
+        </div>
+    </div>
+
+
 </div>
