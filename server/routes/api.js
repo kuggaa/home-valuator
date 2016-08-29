@@ -7,8 +7,7 @@ var cheerio = require('cheerio');
 var request = require('request');
 var replaceall = require('replaceall');
 var madison = require('madison');
-require('dotenv').config({path: '../.env'});
-
+require('dotenv').config();
 
 router.get('/getZestimate', function (req, res) {
     getZestimate(req.query.address, req.query.citystatezip, res);
