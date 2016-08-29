@@ -2,28 +2,61 @@
 
 var place;
 
-homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis',
-    function ($scope, $resource, Helpers, Apis) {
+homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis', '$window',
+    function ($scope, $resource, Helpers, Apis, $window) {
         $scope.homeVal = {};
         $scope.homeVal.initmsg = true;
+        $scope.loading;
+
+        $scope.openUrl = function (url) {
+            console.log(url);
+            $window.location.href = url;
+        }
 
         $scope.homeVal.submit = function () {
 
+            $scope.loading = true;
+
             var queryParams = Helpers.getQueryParams(place);
-            Apis.getZestimate(queryParams, function (result, err) {
-                console.log(result);
+            console.log("place.formatted address", place.formatted_address);
+
+            /* Scrape Homesnap data */
+            Apis.gethomesnapdata(queryParams, function (result, err) {
+                $scope.homeVal.showsnap = true;
                 if (result.errorMessage) {
-                    $scope.homeVal.error = true;
-                    $scope.homeVal.initmsg = false;
+                    $scope.homeVal.snaperror = true;
                 } else {
-                    $scope.homeVal.error = false;
-                    $scope.homeVal.amount = result.amount;
-                    $scope.homeVal.lastUpdated = result.lastUpdated;
-                    $scope.homeVal.valuationMax = result.valuationMax;
-                    $scope.homeVal.valuationMin = result.valuationMin;
-                    $scope.homeVal.initmsg = false;
+                    console.log("in else ", result)
+                    //$scope.homeVal.snaperror = false;
+                    $scope.homeVal.snap_estimate = result.est;
+                    $scope.homeVal.snap_max = result.max;
+                    $scope.homeVal.snap_min = result.min;
                 }
             })
+
+            /* Call zestimate API */
+            Apis.getZestimate(queryParams, function (result, err) {
+                
+                console.log(result);
+                if (result.errorMessage) {
+                    $scope.loading = false;
+                    $scope.homeVal.zerror = true;
+                    $scope.homeVal.initmsg = false;
+                } else {
+                    
+                    $scope.homeVal.error = false;
+                    $scope.homeVal.zamount = result.amount;
+                    $scope.homeVal.zlastUpdated = result.lastUpdated;
+                    $scope.homeVal.zvaluationMax = result.valuationMax;
+                    $scope.homeVal.zvaluationMin = result.valuationMin;
+                    $scope.homeVal.initmsg = false;
+                    $scope.loading = false;
+                }
+            })
+
+
+
+
         }
     }])
 
@@ -34,7 +67,7 @@ homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis',
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 40.714232, lng: -73.9612889 },
-        zoom: 10
+        zoom: 8
     });
     var input = /** @type {!HTMLInputElement} */(
         document.getElementById('pac-input'));
