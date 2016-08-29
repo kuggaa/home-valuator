@@ -4,15 +4,11 @@ var express = require('express');
 var router = express.Router();
 var http = require('http');
 var cheerio = require('cheerio');
-var parseString = require('xml2js').parseString;
-var util = require('util');
 var request = require('request');
 var replaceall = require('replaceall');
 var madison = require('madison');
-var noodle = require('noodlejs');
-// var phantom = require('node-phantom');
-var Horseman = require('node-horseman');
-//var jsdom = require("jsdom");
+require('dotenv').config({path: '../.env'});
+
 
 router.get('/getZestimate', function (req, res) {
     getZestimate(req.query.address, req.query.citystatezip, res);
@@ -29,7 +25,8 @@ router.get('/homesnapdata', function (req, res) {
 
 
 function getZestimate(address, citystatezip, res) {
-    var zwsid = "X1-ZWz1fetklge1vv_3wguv"
+    var zwsid = process.env.ZWSID;
+    console.log(zwsid);
     var options = {
         host: "www.zillow.com",
         path: encodeURI("/webservice/GetSearchResults.htm?zws-id=" + zwsid + "&address=" + address + "&citystatezip=" + citystatezip)
@@ -51,7 +48,6 @@ function getZestimate(address, citystatezip, res) {
             var responseCode = xml('code').html();
 
             if (responseCode !== "0") {
-                console.log("ERROR** no data found")
                 res.json({ errorMessage: "No data found for this address" });
                 return;
             }
@@ -67,7 +63,6 @@ function getZestimate(address, citystatezip, res) {
                 valuationMin = valuationRange('low').html();
             }
 
-            console.log("***ZILLOW*** \n", "amount is", amount, "lastupdate is", lastupdated, "valMax is", valuationMax, "valMin is", valuationMin);
             res.status(200).json({ amount: amount, lastUpdated: lastupdated, valuationMax: valuationMax, valuationMin: valuationMin })
         });
     }
@@ -87,7 +82,6 @@ function gethomesnapdata(query, res) {
 
     madison.getStateAbbrev(query.state, function (abbrev) {
         var url = baseUrl + abbrev + "/" + locality + "/" + address;
-        // console.log("constructed url is", url);
         request(url, options, function (error, response, html) {
             console.log(response.statusCode);
 
@@ -106,7 +100,6 @@ function gethomesnapdata(query, res) {
                 estimate = $('.lineStop').find('.statusSubInfo').text();
             }
             
-            console.log("minval", minval, "currval", estimate, "maxval", maxval);
             res.status(200).json({ min: minval, est: estimate, max: maxval });
         })
     })
