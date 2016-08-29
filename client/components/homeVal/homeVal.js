@@ -8,13 +8,12 @@ homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis', 
         $scope.homeVal.initmsg = true;
         $scope.loading;
 
+        /* Redirect page to website of data source */
         $scope.openUrl = function (url) {
-            console.log(url);
             $window.location.href = url;
         }
 
         $scope.homeVal.submit = function () {
-
             $scope.loading = true;
 
             var queryParams = Helpers.getQueryParams(place);
@@ -27,7 +26,6 @@ homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis', 
                     $scope.homeVal.snaperror = true;
                 } else {
                     console.log("in else ", result)
-                    //$scope.homeVal.snaperror = false;
                     $scope.homeVal.snap_estimate = result.est;
                     $scope.homeVal.snap_max = result.max;
                     $scope.homeVal.snap_min = result.min;
@@ -36,7 +34,6 @@ homeValApp.controller('HomeValCtrl', ['$scope', '$resource', 'Helpers', 'Apis', 
 
             /* Call zestimate API */
             Apis.getZestimate(queryParams, function (result, err) {
-                
                 console.log(result);
                 if (result.errorMessage) {
                     $scope.loading = false;
@@ -96,7 +93,7 @@ function initMap() {
             map.fitBounds(place.geometry.viewport);
         } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
+            map.setZoom(15);
         }
         marker.setIcon(/** @type {google.maps.Icon} */({
             url: place.icon,
