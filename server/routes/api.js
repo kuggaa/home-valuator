@@ -7,7 +7,7 @@ var cheerio = require('cheerio');
 var request = require('request');
 var replaceall = require('replaceall');
 var madison = require('madison');
-require('dotenv').config();
+//require('dotenv').config();
 
 router.get('/getZestimate', function (req, res) {
     getZestimate(req.query.address, req.query.citystatezip, res);
@@ -25,7 +25,6 @@ router.get('/homesnapdata', function (req, res) {
 
 function getZestimate(address, citystatezip, res) {
     var zwsid = process.env.ZWSID;
-    console.log(zwsid);
     var options = {
         host: "www.zillow.com",
         path: encodeURI("/webservice/GetSearchResults.htm?zws-id=" + zwsid + "&address=" + address + "&citystatezip=" + citystatezip)
