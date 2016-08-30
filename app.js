@@ -19,7 +19,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.resolve('../')));
+app.use(express.static(__dirname));
+//console.log("DIRNAME", __dirname)
 
 
 // catch 404 and forward to error handler
@@ -43,7 +44,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-var apis = require("./routes/api");
+var apis = require("./server/routes/api");
 app.use('/api', apis);
 
 // production error handler
