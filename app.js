@@ -1,10 +1,10 @@
 var express = require('express');
 var path = require('path');
-// var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+//require('dotenv').config(); ADD a .env file with zwsid and uncomment this
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -20,15 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(__dirname));
-//console.log("DIRNAME", __dirname)
 
-
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
 
 // error handlers
 
@@ -46,16 +38,6 @@ if (app.get('env') === 'development') {
 
 var apis = require("./server/routes/api");
 app.use('/api', apis);
-
-// production error handler
-// no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {}
-//   });
-// });
 
 
 /* ROUTES */
