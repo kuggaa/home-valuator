@@ -59,7 +59,7 @@ app.use('/api', apis);
 
 /* ROUTES */
 app.get('/', function (req, res) {
-    res.sendFile(path.resolve('../client/views/index.html'));
+    res.sendFile(path.resolve('client/views/index.html'));
 })
 
 
