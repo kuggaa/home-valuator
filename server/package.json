@@ -24,6 +24,9 @@
     "start": "node app.js",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
+  "engines": {
+    "node": "4.4.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kwosei/home-valuator.git"
